@@ -66,7 +66,15 @@ const steps = [
       <div class="wrap hero-grid">
         <div class="hero-text">
           <p class="eyebrow">Open source database&nbsp;· <span class="nw">Apache-2.0</span></p>
-          <h1 class="name">DDBD</h1>
+          <h1 class="name">
+            <!-- the logo mark before the name: ink tile, paper waves, so it flips with the theme -->
+            <svg class="name-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <rect width="64" height="64" rx="14" />
+              <path d="M16 20 C21 13 27 13 32 20 S43 27 48 20" />
+              <path d="M16 32 C21 25 27 25 32 32 S43 39 48 32" />
+              <path d="M16 44 C21 37 27 37 32 44 S43 51 48 44" />
+            </svg>DDBD
+          </h1>
           <p class="lead">Schemaless record database with <span class="nw">writer-based</span> access control&nbsp;(WBAC).</p>
           <p class="sub">Let your agents work on your data without an admin in the loop.</p>
           <CmdLine class="hero-cmd" :cmd="INSTALL" />
@@ -354,12 +362,26 @@ const steps = [
   margin: 0 0 18px;
 }
 .name {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
   font-size: clamp(52px, 8.4vw, 104px);
   line-height: 0.95;
   font-weight: 700;
   letter-spacing: -0.045em;
   margin: 0;
 }
+.name-mark {
+  flex: none;
+  width: 0.86em;
+  height: 0.86em;
+  fill: none;
+  stroke: var(--dd-paper);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.name-mark rect { fill: var(--dd-ink); stroke: none; }
 .lead { font-size: clamp(19px, 2.2vw, 24px); line-height: 1.4; font-weight: 600; letter-spacing: -0.01em; margin: 28px 0 0; }
 .sub { font-size: 17px; line-height: 1.6; color: var(--dd-muted); margin: 12px 0 0; max-width: 34rem; }
 .hero-cmd { margin-top: 32px; max-width: 34rem; }
