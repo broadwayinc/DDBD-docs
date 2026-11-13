@@ -12,7 +12,7 @@ import PerfSection from './PerfSection.vue'
 // the postRecord body of the example the key diagram plays now
 const ex = computed(() => EXAMPLES[current.value])
 const dataPairs = computed(() => Object.entries(ex.value.data))
-const INSTALL = 'curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sh'
+const INSTALL = 'curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sudo sh'
 const BREW = 'brew install broadwayinc/ddbd/ddbd'
 
 const access = [
@@ -49,13 +49,13 @@ const simple = [
 
 const steps = [
   {
-    t: 'Install', cmd: INSTALL, comment: 'Linux', note: 'x86_64 or arm64, glibc\u00a02.34 or newer. Puts ddbd in /usr/local/bin, or in ~/.local/bin without sudo.',
+    t: 'Install', cmd: INSTALL, comment: 'Linux', note: 'x86_64 or arm64, glibc\u00a02.34 or newer. Puts ddbd in /usr/local/bin for every user.',
     alt: BREW, altComment: 'macOS 11 or newer, Apple Silicon or Intel',
   },
-  { t: 'Create a data folder', cmd: 'ddbd init --data ~/ddbd-data' },
-  { t: 'Start the server', cmd: 'ddbd start --data ~/ddbd-data', note: 'Answers on http://localhost:7070.' },
+  { t: 'Create a data folder', cmd: 'ddbd init', note: 'Makes ~/ddbd-data in your home folder.' },
+  { t: 'Start the server', cmd: 'ddbd start', note: 'Answers on http://localhost:7070.' },
   // the last step's follow-up is the one people miss, so it is body text, not a small grey note
-  { t: 'Turn on the web admin', cmd: 'ddbd admin --data ~/ddbd-data web-password', open: 'http://localhost:7070', then: 'and add your first user.' },
+  { t: 'Turn on the web admin', cmd: 'ddbd admin web-password', open: 'http://localhost:7070', then: 'and add your first user.' },
 ]
 </script>
 

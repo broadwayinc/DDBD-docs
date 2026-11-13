@@ -7,33 +7,33 @@ DDBD runs as one process on one machine. This page covers installing and upgradi
 DDBD runs on Linux and on macOS. On macOS, Homebrew installs it: see [On macOS](#on-macos). On Linux it runs on x86_64 or arm64 processors, with glibc 2.34 or newer: for example Ubuntu 22.04 or 24.04, Debian 12, RHEL 9 or Amazon Linux 2023. Install it with:
 
 ```bash
-$ curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sh
+$ curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sudo sh
 ```
 
-The installer checks the system, downloads the build for its processor, checks the download against its SHA-256 checksum, and installs:
+The installer checks the system, downloads the build for its processor, checks the download against its SHA-256 checksum, and installs, for every user of the machine:
 
 | what | where |
 |---|---|
-| the program | `/usr/local/bin/ddbd` (with sudo, which may ask for your password) |
+| the program | `/usr/local/bin/ddbd` |
 | the license files (`LICENSE`, `NOTICE`, `THIRD-PARTY-NOTICES`) | `/usr/local/share/doc/ddbd` |
 
-Without sudo, it uses `~/.local/bin` and `~/.local/share/doc/ddbd` instead, and says how to add `~/.local/bin` to your `PATH`. On an unsupported system it stops and says why, without installing anything. It never touches data folders.
+Only the install runs with `sudo`; run `ddbd` itself as a normal user, because its default data folder is in the home folder of whoever runs it (see [The data folder](/admin/command-line#the-data-folder)). On a machine where you have no `sudo`, run it without: `curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sh` installs into `~/.local/bin` and `~/.local/share/doc/ddbd` for you alone, and says how to add `~/.local/bin` to your `PATH`. On an unsupported system it stops and says why, without installing anything. It never touches data folders.
 
-Two settings change what it does. Put them before `sh`:
+Two settings change what it does. Put them after `sudo`, before `sh`:
 
 | setting | example | effect |
 |---|---|---|
-| `DDBD_VERSION` | `curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 \| DDBD_VERSION=0.2.0 sh` | installs that version instead of the newest |
-| `DDBD_INSTALL_DIR` | `curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 \| DDBD_INSTALL_DIR=/opt/ddbd/bin sh` | installs the program into that folder; the license files go to `/opt/ddbd/share/doc/ddbd` |
+| `DDBD_VERSION` | `curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 \| sudo DDBD_VERSION=0.3.0 sh` | installs that version instead of the newest |
+| `DDBD_INSTALL_DIR` | `curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 \| sudo DDBD_INSTALL_DIR=/opt/ddbd/bin sh` | installs the program into that folder; the license files go to `/opt/ddbd/share/doc/ddbd` |
 
 Check the installed version with `ddbd version`, which prints `ddbd x.x.x`. In the [Web Admin](/admin/web-admin#tools), the **Tools** screen shows the version the running server was started with (which stays the old one until the server restarts after an update), and **[Check for updates]** there tells whether a newer release is out.
 
 ### Upgrading
 
-Run the install command again (with Homebrew, `brew upgrade ddbd`). It replaces the program with the newest version and leaves every data folder as it is. A running server keeps using the old program until it restarts, so restart it afterwards: **Restart** on the Tools page of the [Web Admin](/admin/web-admin) restarts it in place, `ddbd restart --data <folder>` restarts it in your terminal, `sudo systemctl restart ddbd` restarts the systemd service, and `brew services restart ddbd` the Homebrew one.
+Run the install command again, `curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sudo sh` (with Homebrew, `brew upgrade ddbd`). If you first installed into another folder with `DDBD_INSTALL_DIR`, give the same `DDBD_INSTALL_DIR` again, or the new version goes to `/usr/local/bin` beside the old one. It replaces the program with the newest version and leaves every data folder as it is. A running server keeps using the old program until it restarts, so restart it afterwards: **Restart** on the Tools page of the [Web Admin](/admin/web-admin) restarts it in place, `ddbd restart --data <folder>` restarts it in your terminal, `sudo systemctl restart ddbd` restarts the systemd service, and `brew services restart ddbd` the Homebrew one.
 
 ::: tip Coming from DADABADA 0.1.x
-DDBD was called DADABADA up to version 0.1.4. The names changed with 0.2.0: the settings file is `ddbd.toml`, the environment variable `DDBD_DATA`, the default data folder `./ddbd-data`, `ddbd connect` keeps trusted certificates in `~/.config/ddbd`, and releases come from `https://cdn.broadwayinc.com/get/ddbd`. The old install command keeps installing 0.1.4. To move a server over:
+DDBD was called DADABADA up to version 0.1.4. The names changed with 0.2.0: the settings file is `ddbd.toml`, the environment variable `DDBD_DATA`, the default data folder `./ddbd-data` (since 0.3.1, `~/ddbd-data`), `ddbd connect` keeps trusted certificates in `~/.config/ddbd`, and releases come from `https://cdn.broadwayinc.com/get/ddbd`. The old install command keeps installing 0.1.4. To move a server over:
 
 1. Install DDBD with the command above.
 2. Stop the server and rename the settings file in its data folder: `mv <folder>/dadabada.toml <folder>/ddbd.toml`. Until then, `ddbd start` refuses the folder and says so. Users, passwords, records, agent keys and sessions carry over as they are.

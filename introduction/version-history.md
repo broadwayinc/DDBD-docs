@@ -4,6 +4,34 @@ The newest version is at `https://cdn.broadwayinc.com/get/ddbd/latest`. `ddbd ve
 To upgrade, install the new version over the old one ([Operations](/admin/operations)) and restart:
 `ddbd restart --data <folder>`.
 
+## 0.3.1
+
+2026-11-13
+
+**The default data folder is `~/ddbd-data`.** Without `--data` (and without `DDBD_DATA`), every command uses
+`ddbd-data` in your home folder, on Linux and macOS alike, whatever folder it is run in. It used to be
+`./ddbd-data` in the current folder, so running `ddbd` from another folder found no database, or made a new one there.
+See [The data folder](/admin/command-line#the-data-folder).
+
+- A data folder made with the old default keeps working: give its path with `--data`, set `DDBD_DATA`, or move it
+  to `~/ddbd-data` while the server is stopped.
+- Services that pass `--data` (systemd units, `brew services`) are not affected.
+
+**Durations must be above zero on the command line too.** `ddbd start --notify-keep 0` (or `--private-key-ttl 0`)
+is refused, as the Web Admin's Settings page already refused it. See [Durations](/admin/command-line#durations).
+
+**Admin shell catalog commands fixed.** `tags`, `indexes`, and `collections` or `uniques` with a condition (such as
+`collections >= prod`) answered `INVALID_REQUEST: Unknown key "collection"`. They now work, and `indexes` takes
+`--desc` as in the User Shell.
+
+**Install with `sudo`.** The install command is now `curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sudo sh`,
+which installs `ddbd` in `/usr/local/bin` for every user of the machine.
+
+**Clearer documentation** for the [Command Line](/admin/command-line), the [Admin Shell](/admin/admin-shell) and
+the [User Shell](/admin/user-shell): every command has its own table of options with their types, and examples;
+[Typing values](/admin/user-shell#typing-values) explains values, indexes and conditions in one place; and the docs
+font no longer joins `>=`, `<=` and `=>` into single symbols.
+
 ## 0.3.0
 
 2026-11-13

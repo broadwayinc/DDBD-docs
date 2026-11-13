@@ -17,10 +17,10 @@ DDBD runs on Linux and on macOS. Install it on the machine that will run the dat
 **Linux**, on x86_64 or arm64 processors, with glibc 2.34 or newer: for example Ubuntu 22.04 or 24.04, Debian 12, RHEL 9 or Amazon Linux 2023.
 
 ```bash
-$ curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sh
+$ curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sudo sh
 ```
 
-The installer downloads DDBD, checks the download, and puts the `ddbd` program in `/usr/local/bin`, so you can run it from any folder. Writing there needs administrator rights, so it may ask for your password once. Without sudo, it installs into `~/.local/bin` instead and tells you how to add that folder to your `PATH`. The license files go next to it, in `/usr/local/share/doc/ddbd`.
+The installer downloads DDBD, checks the download, and puts the `ddbd` program in `/usr/local/bin`, so every user of the machine can run it from any folder. `sudo` gives it the administrator rights that folder needs, and may ask for your password once. The license files go next to it, in `/usr/local/share/doc/ddbd`. Only the install needs `sudo`: run `ddbd` itself as your normal user. On a machine where you have no `sudo`, see [Installing, upgrading and removing](/admin/operations#installing-upgrading-and-removing).
 
 **macOS** 11 or newer, on Apple Silicon or Intel, with [Homebrew](https://brew.sh).
 
@@ -47,7 +47,7 @@ Running the same install command again later updates DDBD to the newest version;
 A data folder holds one database: its records, users, settings and certificate. Create it once:
 
 ```bash
-$ ddbd init --data ~/ddbd-data
+$ ddbd init
 ```
 
 ```
@@ -59,7 +59,9 @@ Next: ddbd start --data /home/ubuntu/ddbd-data
 Then add a user: ddbd admin --data /home/ubuntu/ddbd-data user add <name> --level 00
 ```
 
-`init` creates the folder if it does not exist, including any missing parent folders, and makes it readable only by you. Pick any folder you can write to. If the folder is already set up, `init` changes nothing and says so:
+Without `--data`, the data folder is `ddbd-data` in your home folder (`~/ddbd-data`), whatever folder you run the command in, and every later command (`start`, `admin`, `stop`) finds it there without `--data` too. To keep it somewhere else, add `--data <folder>` here and give the same `--data` to every later command (or set the `DDBD_DATA` environment variable to it).
+
+`init` creates the folder if it does not exist, including any missing parent folders, and makes it readable only by you. If the folder is already set up, `init` changes nothing and says so:
 
 ```
 /home/ubuntu/ddbd-data is already set up. Start it with: ddbd start --data /home/ubuntu/ddbd-data
@@ -69,7 +71,7 @@ The options of `init`:
 
 | option | if you leave it out | what it sets |
 |---|---|---|
-| `--data <folder>` | `./ddbd-data` in the current folder | where the database lives. Every later command takes the same `--data` |
+| `--data <folder>` | `~/ddbd-data` (`ddbd-data` in your home folder), or the folder in `DDBD_DATA` | where the database lives. Later commands use the same default, so give them the same `--data` only if you chose another folder |
 | `--port <port>` | `7070` | the port the server listens on |
 | `--bind <address>` | `0.0.0.0` | which network address it listens on: `0.0.0.0` is every address, `127.0.0.1` is this machine only |
 | `--tls` | plain HTTP | DDBD serves HTTPS itself, with a self-signed certificate made now (see below) |
@@ -84,7 +86,7 @@ By default DDBD speaks plain HTTP: passwords, tokens and records travel unencryp
 - **DDBD serves HTTPS itself.** Add `--tls` when you create the folder:
 
 ```bash
-$ ddbd init --data ~/ddbd-data --tls
+$ ddbd init --tls
 ```
 
 `--tls` makes a self-signed certificate. Browsers warn about it, and curl needs `-k`, until you replace it with a certificate from a certificate authority (Settings page, `tls_cert` and `tls_key`).
@@ -94,27 +96,27 @@ With TLS off, `https://` requests to the port fail; with TLS on, plain `http://`
 ## 3. Start the server
 
 ```bash
-$ ddbd start --data ~/ddbd-data
+$ ddbd start
 ```
 
 ```
-DDBD 0.3.0  (schemaless, lexicographic, single binary)
+DDBD 0.3.1  (schemaless, lexicographic, single binary)
   data     /home/ubuntu/ddbd-data
   network  0.0.0.0:7070 (plain HTTP)
   admin    /home/ubuntu/ddbd-data/admin.sock (only OS user ubuntu)
   limits   indexes per record: unlimited · tags per record: unlimited · notifications kept 1d · private keys last 1h
   users 0 · records 0 · collections 0
-19:49:12  Ready. DDBD 0.2.0 on 0.0.0.0:7070 (plain HTTP)
+19:49:12  Ready. DDBD 0.3.1 on 0.0.0.0:7070 (plain HTTP)
 ```
 
-The server runs in this terminal and prints a line for every request. Leave it running and open a **second terminal** for the next steps. To stop it, press Ctrl-C here, or run `ddbd stop --data ~/ddbd-data` from another terminal.
+The server runs in this terminal and prints a line for every request. Leave it running and open a **second terminal** for the next steps. To stop it, press Ctrl-C here, or run `ddbd stop` from another terminal.
 
 ## 4. Open the web admin
 
 The web admin is a page served by DDBD itself, for you as the administrator. Turn it on by giving it a password, in the second terminal:
 
 ```bash
-$ ddbd admin --data ~/ddbd-data web-password
+$ ddbd admin web-password
 ```
 
 ```
@@ -483,7 +485,7 @@ A few other queries to try, as the `-d` body:
 When you are done, stop DDBD. In the terminal where it runs, press **Ctrl-C**. Or, from any other terminal:
 
 ```bash
-$ ddbd stop --data ~/ddbd-data
+$ ddbd stop
 ```
 
 ```
@@ -498,4 +500,4 @@ Stopping: refusing new requests, finishing the ones in progress...
 Stopped.
 ```
 
-Everything you saved stays in `~/ddbd-data`. To continue later, start it again with `ddbd start --data ~/ddbd-data`; alice, her record and the web admin password are all still there.
+Everything you saved stays in `~/ddbd-data`. To continue later, start it again with `ddbd start`; alice, her record and the web admin password are all still there.

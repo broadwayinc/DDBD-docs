@@ -30,7 +30,7 @@ session_idle_hours = 24
 | `[rocksdb] block_cache_mb` | `256` | memory in MB for cached data blocks (at least 8) |
 | `[rocksdb] blob_min_kb` | `4` | record bodies of this many KB or more are kept in separate blob files (at least 1) |
 
-Durations (`notify_keep`, `private_key_ttl`, `login_max_delay`) are a number followed by `ms`, `s`, `m`, `h`, `d` or `w`; a bare number is seconds. The four settings with a flag in brackets can also be overridden for one run on the [`start`](/admin/command-line#ddbd-start) command line.
+Durations (`notify_keep`, `private_key_ttl`, `login_max_delay`) are a whole number above zero followed by one unit, `ms`, `s`, `m`, `h`, `d` or `w`, such as `30m`, `12h` or `7d`; a bare number is seconds. `1.5h`, `1h30m` and `0` are refused. See [Durations](/admin/command-line#durations) for every rule. The four settings with a flag in brackets can also be overridden for one run on the [`start`](/admin/command-line#ddbd-start) command line.
 
 The Web Admin's Settings page checks values before it saves them: durations must be above zero, `port`, `login_free_attempts`, `session_idle_hours` and `admin_session_idle_minutes` at least 1, `bind` an IP address, and `tls_cert` and `tls_key` files that exist on the server (an empty value means the files made by `init`). Turning `tls` on when the certificate file is missing makes a new self-signed certificate in `<data folder>/tls/`.
 

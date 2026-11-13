@@ -18,6 +18,14 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* JetBrains Mono joins >=, <=, =>, != and .. into single ligature glyphs (its "calt" feature), which
+   makes conditions such as price>=1000 and name=value hard to read and copy. Every character is drawn
+   on its own, in text, tables and code blocks alike. */
+html, body, code, pre, kbd, samp, .vp-doc, .vp-code {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
 :root {
   --vp-font-family-base: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --vp-font-family-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
