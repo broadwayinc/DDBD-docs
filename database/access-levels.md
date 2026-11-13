@@ -14,6 +14,8 @@ Level `00` is the lowest level, not an open one: every request needs an account,
 
 ## Who can read what
 
+Every rule, with worked examples for reference reads and one user's records, is on [Access Rules](/database/access-rules).
+
 A user can read:
 
 - records at or below their level
@@ -24,7 +26,7 @@ A user can read:
 
 The admin reads every record. Two things narrow the list above:
 
-- A record with `is_subscription_record` is readable only by its uploader and the uploader's subscribers who are not blocked. See [Subscriptions](/database/subscription#subscription-records).
+- A record with `is_subscription_record` is readable only by its uploader, the uploader's subscribers who are not blocked, and the users who uploaded or were granted the record it points to. See [Subscriptions](/database/subscription#subscription-records).
 - An [agent key](/users/agent-keys) reads only within its limits: the collections it was given, records up to its `max_level`, and private records only when it was created with `private: true`.
 
 Reading a single record above your level is refused. bob is level 05 and asks for a level 10 record:

@@ -577,7 +577,7 @@ Special index names:
 | `$uploaded` | time in ms (number) | every condition, and `range` |
 | `$updated` | time in ms (number) | every condition, and `range` |
 | `$referenced_count` | number | every condition, and `range` |
-| `$user_id` | user id (string) | any condition is read as `=`; the same as `reference: {user_id}` |
+| `$user_id` | user id (string) | any condition is read as `=`; the same as `reference: {user_id}`. With a record `reference`, that user's records pointing to it, in upload order ([Access Rules](/database/access-rules#one-user-s-records-that-point-to-a-record)) |
 | a name ending in `.` (`shop.`) | child name (string), or none | `=` that child and the names under it (`shop.brand` and `shop.brand.sub`), `>=` child starts with, `<=` child ends with; no `>`, `<`, `range` or `loose`. Each record appears once. |
 
 What a user can read: records at or below their level; their own records; records they were granted (private ones, and ones above their level); records that point to a record they uploaded or were granted (at any level, private and subscription records included); and, in a `record_id` or `unique_id` lookup, a record they hold a valid private access key for. A subscription record also needs a subscription to its uploader that is not blocked. A query without `access_level` scans the levels up to yours plus the private records you uploaded or were granted; a readable record above your level is found by its id, or by a query that names its `access_level`. Level `00` still needs an account. Sorting by `$referenced_count` can lag the true count for a moment; the count on each record is always exact.

@@ -46,6 +46,7 @@ export default defineConfig({
           { text: 'Creating records', link: '/database/create' },
           { text: 'Fetching records', link: '/database/fetch' },
           { text: 'Access levels', link: '/database/access-levels' },
+          { text: 'Access rules', link: '/database/access-rules' },
           { text: 'Indexing', link: '/database/indexing' },
           { text: 'Tags', link: '/database/tags' },
           { text: 'Unique ID', link: '/database/unique-id' },

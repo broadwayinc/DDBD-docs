@@ -410,6 +410,8 @@ Without an `index` the comments come in upload order; add an `index` condition, 
 
 `query.reference` has one more form, `{ "user_id": "..." }`, which fetches that user's records in the collection (the same as the `$user_id` index). It is a different thing from a record reference.
 
+A record `reference` together with the `$user_id` index lists one user's records that point to the target, by the same rule. See [One user's records that point to a record](/database/access-rules#one-user-s-records-that-point-to-a-record).
+
 ### How many records point to a record
 
 Every record carries `referenced_count`, the number of records pointing to it. It is left out of a response while it is 0. The article after its three comments:
