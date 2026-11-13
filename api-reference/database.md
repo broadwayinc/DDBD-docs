@@ -534,8 +534,8 @@ alice> raw postRecords '{"items": [{"data": {"title": "Desk Lamp"}, "config": {"
         /** Without access_level the query covers every level you can read, plus your own and granted "**" records, merged in order. */
         collection?: string | {
             name: string;                  // Required in the object. The collection.
-            access_level?: string;         // "00" to "99" (two digits) or "**": only this level. A level above yours is allowed; it lists the records at that level you can read through a grant or a reference. "**" lists the private records you uploaded or were granted.
-            subscription?: string;         // A user id: read that user's subscription records (is_subscription_record). You must be that user, or subscribe to them and not be blocked.
+            access_level?: string;         // "00" to "99" (two digits) or "**": only this level. Without query.reference, a level above yours lists the records at that level you were granted, and "**" the private records you uploaded or were granted. With query.reference, a level above yours or "**" needs private access to the target (you uploaded it, or it was shared with you): then it lists every record at that level pointing to it; otherwise NO_ACCESS.
+            subscription?: string;         // A user id: read that user's subscription records (is_subscription_record). You must be that user, or subscribe to them and not be blocked, or (with query.reference) have private access to the target.
         };
         /** One condition on one index. Without it, records come in upload order; with it, in value order, then upload order. */
         index?: {
@@ -580,7 +580,7 @@ Special index names:
 | `$user_id` | user id (string) | any condition is read as `=`; the same as `reference: {user_id}` |
 | a name ending in `.` (`shop.`) | child name (string), or none | `=` that child and the names under it (`shop.brand` and `shop.brand.sub`), `>=` child starts with, `<=` child ends with; no `>`, `<`, `range` or `loose`. Each record appears once. |
 
-What a user can read: records at or below their level; their own records; records they were granted (private ones, and ones above their level); records that point to a record they uploaded or were granted; and, in a `record_id` or `unique_id` lookup, a record they hold a valid private access key for. A subscription record also needs a subscription to its uploader that is not blocked. A query without `access_level` scans the levels up to yours plus the private records you uploaded or were granted; a readable record above your level is found by its id, or by a query that names its `access_level`. Level `00` still needs an account. Sorting by `$referenced_count` can lag the true count for a moment; the count on each record is always exact.
+What a user can read: records at or below their level; their own records; records they were granted (private ones, and ones above their level); records that point to a record they uploaded or were granted (at any level, private and subscription records included); and, in a `record_id` or `unique_id` lookup, a record they hold a valid private access key for. A subscription record also needs a subscription to its uploader that is not blocked. A query without `access_level` scans the levels up to yours plus the private records you uploaded or were granted; a readable record above your level is found by its id, or by a query that names its `access_level`. Level `00` still needs an account. Sorting by `$referenced_count` can lag the true count for a moment; the count on each record is always exact.
 
 #### Example
 

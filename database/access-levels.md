@@ -19,7 +19,7 @@ A user can read:
 - records at or below their level
 - their own records, at any level
 - records they were [granted](#granting-access-to-a-record): private records, and records above their level
-- records that point to a record they uploaded or were granted, at any level (see [Access by reference](/database/referencing#access-by-reference))
+- records that point to a record they uploaded or were granted, at any level, private and subscription records included (see [Access by reference](/database/referencing#access-by-reference))
 - any record they hold a valid [private access key](#private-access-keys) for
 
 The admin reads every record. Two things narrow the list above:

@@ -301,7 +301,7 @@ An index value, a value in a query condition and a value in a restriction is one
 
 In a request `access_level` accepts only a string of exactly two digits, `"00"` to `"99"`, or `"**"`. Any other value is refused, a number such as `7` or a one-digit string such as `"7"` included: `access_level must be "00" to "99", or "**" for private.` An agent key's `max_level` follows the same rule without `"**"`: `max_level must be "00" to "99".` Answers always carry two characters.
 
-The writer of a record sets its level. A user reads records at or below their level, their own records, records they were granted (private ones and ones above their level), records that point to a record they uploaded or were granted, and, in a `record_id` or `unique_id` lookup, a record they hold a valid private access key for. A subscription record also needs a subscription to its uploader that is not blocked. A user posts at or below their level, or at `**`. Level `00` still needs an account. No network user has admin powers, whatever their level. See [Access levels](/database/access-levels).
+The writer of a record sets its level. A user reads records at or below their level, their own records, records they were granted (private ones and ones above their level), records that point to a record they uploaded or were granted (private and subscription records included), and, in a `record_id` or `unique_id` lookup, a record they hold a valid private access key for. A subscription record also needs a subscription to its uploader that is not blocked. A user posts at or below their level, or at `**`. Level `00` still needs an account. No network user has admin powers, whatever their level. See [Access levels](/database/access-levels).
 
 ## Durations
 

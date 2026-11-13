@@ -323,6 +323,15 @@ And the target must exist. `"reference": "no-such-thing"` answers:
 
 Put the target in `query.reference` of [`getRecords`](/api-reference/database#getrecords). A collection is still required: references are fetched per collection.
 
+Which of them you get follows one rule: **the user who uploaded the target, and the users it was shared with ([`grantPrivateRecordAccess`](/api-reference/database#grantprivaterecordaccess)), read every record that points to it.**
+
+| You ... | Without `access_level` you get | `access_level` above yours, or `"**"` | `collection.subscription` |
+|---|---|---|---|
+| uploaded the target, or it was shared with you | every level the collection uses and every `"**"` record pointing to it | allowed | any uploader's subscription records, without subscribing |
+| anyone else | the levels up to your own; **no** `"**"` records, not even your own | refused (`NO_ACCESS`) | only as a subscriber, as anywhere else |
+
+Your own `"**"` records stay yours: you read them by `record_id`, or by listing `"**"` without `reference`. They just do not come back in a reference listing of a target you have no access to.
+
 ::: code-group
 
 ```bash [curl]
@@ -1253,7 +1262,7 @@ Any key that is not one of the six rules is refused, so a typo never passes as a
 
 ## Access by reference
 
-A record that points to another record is readable by whoever uploaded, or was granted, the record it points to, whatever the pointing record's level, `"**"` included. This is how a reply stays between two people: bob posts a `"**"` comment pointing to alice's article. bob can read it because it is his, and alice can read it because the comment points to her article. Other users cannot, unless alice grants them the article.
+A record that points to another record is readable by whoever uploaded, or was granted, the record it points to, whatever the pointing record's level, `"**"` and subscription records included. This is how a reply stays between two people: bob posts a `"**"` comment pointing to alice's article. alice can read it because the comment points to her article, and lists it when she fetches the article's comments. bob can read it because it is his (by `record_id`, or among his own `"**"` records); a reference listing of alice's article does not return it to him, because he has no access to the article (see [the table above](#fetching-the-records-that-point-to-a-record)). Other users cannot read it, unless alice grants them the article.
 
 A reference is also the way to a [private access key](/database/access-levels#private-access-keys): a user who can read a record that points to another record can ask for a key to that other record, naming the pointing record in `reference_id`.
 
