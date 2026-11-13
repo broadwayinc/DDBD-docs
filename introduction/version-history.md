@@ -4,6 +4,14 @@ The newest version is at `https://cdn.broadwayinc.com/get/ddbd/latest`. `ddbd ve
 To upgrade, install the new version over the old one ([Operations](/admin/operations)) and restart:
 `ddbd restart --data <folder>`.
 
+## 0.3.2
+
+2026-11-13
+
+**Web Admin: the selected tab is ringed.** The chosen tab of every tab strip, such as **Form** and **JSON** on
+the Query page, now has an outline around it, so it reads as selected at a glance. Nothing else changes; a
+data folder used by 0.3.1 opens as it is.
+
 ## 0.3.1
 
 2026-11-13
