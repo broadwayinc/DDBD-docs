@@ -26,6 +26,12 @@ html, body, code, pre, kbd, samp, .vp-doc, .vp-code {
   font-feature-settings: "liga" 0, "calt" 0;
 }
 
+/* An option in a table (`--notify-keep`, `--index <name=value>`) stays on one line; the cell grows instead
+   of breaking it after a hyphen. The class comes from the markdown config in config.mts. */
+.vp-doc table code.opt {
+  white-space: nowrap;
+}
+
 :root {
   --vp-font-family-base: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --vp-font-family-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

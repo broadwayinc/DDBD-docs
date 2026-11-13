@@ -8,7 +8,18 @@ export default defineConfig({
   // refresh) would show the 404 page. Turn this back on only where the host serves foo.html for /foo.
   cleanUrls: false,
   // one code theme for both modes: light text on a dark block, so code reads the same everywhere
-  markdown: { theme: 'github-dark' },
+  markdown: {
+    theme: 'github-dark',
+    config(md) {
+      // Inline code that starts with "--" (an option such as `--private-key-ttl`) gets the class "opt", so
+      // custom.css can keep it on one line: browsers otherwise break it after a hyphen in narrow table columns.
+      const render = md.renderer.rules.code_inline!
+      md.renderer.rules.code_inline = (tokens, idx, options, env, self) => {
+        if (tokens[idx].content.startsWith('--')) tokens[idx].attrJoin('class', 'opt')
+        return render(tokens, idx, options, env, self)
+      }
+    },
+  },
   lastUpdated: false,
   // light by default, whatever the system prefers; the toggle still switches to dark and remembers the choice.
   // VitePress types list only 'dark' for initialValue, but the value goes to its pre-paint script and to useDark as is.
