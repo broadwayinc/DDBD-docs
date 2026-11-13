@@ -50,17 +50,17 @@ https://cdn.broadwayinc.com/get/ddbd/<version>/ddbd-<version>-<system>-<processo
 https://cdn.broadwayinc.com/get/ddbd/<version>/ddbd-<version>-<system>-<processor>.tar.gz.sha256
 ```
 
-`<system>` is `linux` or `macos`; `<processor>` is `x86_64` or `aarch64` (`aarch64` is Apple Silicon on a Mac), and the newest `<version>` is the text at `https://cdn.broadwayinc.com/get/ddbd/latest`. For version 0.2.0 on Linux x86_64:
+`<system>` is `linux` or `macos`; `<processor>` is `x86_64` or `aarch64` (`aarch64` is Apple Silicon on a Mac), and the newest `<version>` is the text at `https://cdn.broadwayinc.com/get/ddbd/latest`. For version 0.3.0 on Linux x86_64:
 
 ```bash
-$ curl -fsSLO https://cdn.broadwayinc.com/get/ddbd/0.2.0/ddbd-0.2.0-linux-x86_64.tar.gz
-$ curl -fsSLO https://cdn.broadwayinc.com/get/ddbd/0.2.0/ddbd-0.2.0-linux-x86_64.tar.gz.sha256
-$ sha256sum -c ddbd-0.2.0-linux-x86_64.tar.gz.sha256
-$ tar -xzf ddbd-0.2.0-linux-x86_64.tar.gz
-$ sudo install -m 0755 ddbd-0.2.0-linux-x86_64/ddbd /usr/local/bin/ddbd
+$ curl -fsSLO https://cdn.broadwayinc.com/get/ddbd/0.3.0/ddbd-0.3.0-linux-x86_64.tar.gz
+$ curl -fsSLO https://cdn.broadwayinc.com/get/ddbd/0.3.0/ddbd-0.3.0-linux-x86_64.tar.gz.sha256
+$ sha256sum -c ddbd-0.3.0-linux-x86_64.tar.gz.sha256
+$ tar -xzf ddbd-0.3.0-linux-x86_64.tar.gz
+$ sudo install -m 0755 ddbd-0.3.0-linux-x86_64/ddbd /usr/local/bin/ddbd
 ```
 
-`sha256sum -c` must answer `ddbd-0.2.0-linux-x86_64.tar.gz: OK`; if it does not, the download is damaged, so download it again. The folder also holds `LICENSE`, `NOTICE` and `THIRD-PARTY-NOTICES`.
+`sha256sum -c` must answer `ddbd-0.3.0-linux-x86_64.tar.gz: OK`; if it does not, the download is damaged, so download it again. The folder also holds `LICENSE`, `NOTICE` and `THIRD-PARTY-NOTICES`.
 
 On a Mac, check the download with `shasum -a 256 -c` instead of `sha256sum -c`, and download it with `curl` as above, not with a web browser: macOS refuses to run a program that came from a browser and is not notarized by Apple.
 

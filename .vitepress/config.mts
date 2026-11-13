@@ -37,6 +37,7 @@ export default defineConfig({
         items: [
           { text: 'What is DDBD?', link: '/introduction/what-is-ddbd' },
           { text: 'Getting started', link: '/introduction/getting-started' },
+          { text: 'Version history', link: '/introduction/version-history' },
         ],
       },
       {

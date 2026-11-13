@@ -98,7 +98,7 @@ $ ddbd start --data ~/ddbd-data
 ```
 
 ```
-DDBD 0.2.0  (schemaless, lexicographic, single binary)
+DDBD 0.3.0  (schemaless, lexicographic, single binary)
   data     /home/ubuntu/ddbd-data
   network  0.0.0.0:7070 (plain HTTP)
   admin    /home/ubuntu/ddbd-data/admin.sock (only OS user ubuntu)
