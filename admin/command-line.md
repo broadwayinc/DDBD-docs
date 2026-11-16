@@ -346,5 +346,5 @@ Prints `ddbd` and the version.
 
 ```bash
 $ ddbd version
-ddbd 0.3.2
+ddbd 0.3.3
 ```

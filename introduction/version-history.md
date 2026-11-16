@@ -4,6 +4,17 @@ The newest version is at `https://cdn.broadwayinc.com/get/ddbd/latest`. `ddbd ve
 To upgrade, install the new version over the old one ([Operations](/admin/operations)) and restart:
 `ddbd restart --data <folder>`.
 
+## 0.3.3
+
+2026-11-16
+
+**Removing a grant now cancels the user's private access keys.** A user who asked for a
+[private access key](/database/access-levels#private-access-keys) while they were granted a private record could
+keep opening that record by its id, with the key, until the key expired (1 hour by default), even after the grant
+was removed and after signing in again. Now `removePrivateRecordAccess` cancels every key the removed user holds,
+including keys they got through `reference_id`. They can ask again for keys to records they can still read. Keys of
+users who were never removed keep working, and a data folder used by 0.3.2 opens as it is.
+
 ## 0.3.2
 
 2026-11-13

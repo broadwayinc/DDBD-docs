@@ -100,13 +100,13 @@ $ ddbd start
 ```
 
 ```
-DDBD 0.3.2  (schemaless, lexicographic, single binary)
+DDBD 0.3.3  (schemaless, lexicographic, single binary)
   data     /home/ubuntu/ddbd-data
   network  0.0.0.0:7070 (plain HTTP)
   admin    /home/ubuntu/ddbd-data/admin.sock (only OS user ubuntu)
   limits   indexes per record: unlimited · tags per record: unlimited · notifications kept 1d · private keys last 1h
   users 0 · records 0 · collections 0
-19:49:12  Ready. DDBD 0.3.2 on 0.0.0.0:7070 (plain HTTP)
+19:49:12  Ready. DDBD 0.3.3 on 0.0.0.0:7070 (plain HTTP)
 ```
 
 The server runs in this terminal and prints a line for every request. Leave it running and open a **second terminal** for the next steps. To stop it, press Ctrl-C here, or run `ddbd stop` from another terminal.

@@ -821,7 +821,7 @@ Removed: ["Vv4JM09T"]
 }
 ```
 
-carol's next query of `diary` no longer returns the record.
+carol's next query of `diary` no longer returns the record, and a direct lookup by its id is refused. Any [private access key](#private-access-keys) carol was given before stops working too, so she cannot keep reading the record with a key she asked for while she was granted.
 
 ## Private access keys
 
@@ -841,7 +841,7 @@ The key is given if you can read the record now, or if you can read the record n
 |---|---|
 | works for | the user who asked, and that record only. Agent key limits and the subscription rule still apply |
 | lasts | `private_key_ttl` from the settings file (default `1h`), or `ddbd start --private-key-ttl` |
-| is cancelled by | its expiry, or `ddbd admin secret rotate`, which cancels every key at once |
+| is cancelled by | its expiry; removing any grant from that user, which cancels every key the user holds (the user asks again for the ones they can still read); or `ddbd admin secret rotate`, which cancels every key at once |
 
 ### Example
 

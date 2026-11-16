@@ -1273,7 +1273,7 @@ alice> grant VZOatTqxk9eWBGAq YfAbyt1C
 }
 ```
 
-Allowed for the uploader, or for granted users when the record has `allow_granted_to_grant_others`.
+Allowed for the uploader, or for granted users when the record has `allow_granted_to_grant_others`. Every private access key a removed user holds stops working at once, so they cannot keep reading the record with a key they asked for while granted.
 
 #### Example
 
