@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import perf from './perf.json'
+import { DB_LOGOS, DDBD_WAVES } from './dbLogos'
 
 // Measured results (see "How this was measured"). The chart shows the tag query as the database grows,
 // for the share of records the caller may read that is picked above it.
@@ -41,7 +42,7 @@ onMounted(() => {
 onBeforeUnmount(() => mq?.removeEventListener('change', onMq))
 const W = computed(() => (narrow.value ? 380 : 640))
 const L = computed(() => (narrow.value ? 52 : 64))
-const R = computed(() => (narrow.value ? 96 : 150))
+const R = computed(() => (narrow.value ? 116 : 166))
 const H = 340, T = 18, B = 46
 const PW = computed(() => W.value - L.value - R.value)
 const PH = H - T - B
@@ -104,7 +105,16 @@ const hover = ref<number | null>(null)
         <div class="tiles">
           <p class="tiles-head">1,000,000&nbsp;records, median of {{ perf.repeats }}&nbsp;runs of {{ perf.runs }}&nbsp;queries</p>
           <div v-for="s in SERIES" :key="s.key" class="tile" :class="s.key">
-            <span class="tile-name"><i class="mk" :class="s.key" />{{ s.name }}</span>
+            <span class="tile-name"><i class="mk" :class="s.key" />
+              <!-- the database's own mark before its name -->
+              <svg v-if="s.key === 'dd'" class="db-logo" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                <rect class="ddbd-tile" width="64" height="64" rx="14" />
+                <path v-for="w in DDBD_WAVES" :key="w" class="ddbd-wave" :d="w" />
+              </svg>
+              <img v-else-if="DB_LOGOS[s.key].img" class="db-logo" :src="DB_LOGOS[s.key].img" alt="" width="18" height="18" />
+              <svg v-else class="db-logo" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path :d="DB_LOGOS[s.key].d" :fill="DB_LOGOS[s.key].color" />
+              </svg>{{ s.name }}</span>
             <span class="tile-val">{{ fmt(at1m[s.key]) }} <small>ms</small></span>
           </div>
           <p class="tiles-foot">
@@ -138,8 +148,17 @@ const hover = ref<number | null>(null)
             </g>
             <g class="ends">
               <g v-for="e in endLabels" :key="e.key">
-                <text :x="L + PW + 12" :y="e.y + 4" class="end-name">{{ e.short }}</text>
-                <text :x="L + PW + 12" :y="e.y + 18" class="end-val">{{ fmt(e.v) }} ms</text>
+                <!-- the mark, then the name and the value beside it -->
+                <svg v-if="e.key === 'dd'" :x="L + PW + 12" :y="e.y - 8" width="15" height="15" viewBox="0 0 64 64" aria-hidden="true">
+                  <rect class="ddbd-tile" width="64" height="64" rx="14" />
+                  <path v-for="w in DDBD_WAVES" :key="w" class="ddbd-wave" :d="w" />
+                </svg>
+                <image v-else-if="DB_LOGOS[e.key].img" :href="DB_LOGOS[e.key].img" :x="L + PW + 12" :y="e.y - 8" width="15" height="15" />
+                <svg v-else :x="L + PW + 12" :y="e.y - 8" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+                  <path :d="DB_LOGOS[e.key].d" :fill="DB_LOGOS[e.key].color" />
+                </svg>
+                <text :x="L + PW + 32" :y="e.y + 4" class="end-name">{{ e.short }}</text>
+                <text :x="L + PW + 32" :y="e.y + 18" class="end-val">{{ fmt(e.v) }} ms</text>
               </g>
             </g>
             <rect v-for="(p, i) in points" :key="'hit' + i" class="hit" :x="xOf(i) - PW / 4" :y="T"
@@ -292,6 +311,11 @@ code { font-size: 0.9em; background: var(--dd-soft); padding: 2px 6px; }
 .series.mongo g path { fill: var(--pf-mongo); stroke: var(--dd-paper); stroke-width: 2; }
 .end-name { fill: var(--dd-ink); font-size: 12.5px; font-weight: 700; }
 .end-val { fill: var(--dd-muted); font-size: 12px; }
+/* the database marks, in the tiles and beside the chart's end labels. DDBD's is
+   the site's logo: an ink tile with paper waves, so it inverts with the theme. */
+.db-logo { width: 18px; height: 18px; flex: none; }
+.ddbd-tile { fill: var(--dd-ink); }
+.ddbd-wave { fill: none; stroke: var(--dd-paper); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
 .hit { fill: transparent; outline: none; cursor: crosshair; }
 .tip {
   position: absolute;

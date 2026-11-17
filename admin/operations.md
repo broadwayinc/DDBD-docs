@@ -32,15 +32,15 @@ Check the installed version with `ddbd version`, which prints `ddbd x.x.x`. In t
 
 Run the install command again, `curl -fsSL https://cdn.broadwayinc.com/get/ddbd/v1 | sudo sh` (with Homebrew, `brew upgrade ddbd`). If you first installed into another folder with `DDBD_INSTALL_DIR`, give the same `DDBD_INSTALL_DIR` again, or the new version goes to `/usr/local/bin` beside the old one. It replaces the program with the newest version and leaves every data folder as it is. A running server keeps using the old program until it restarts, so restart it afterwards: **Restart** on the Tools page of the [Web Admin](/admin/web-admin) restarts it in place, `ddbd restart --data <folder>` restarts it in your terminal, `sudo systemctl restart ddbd` restarts the systemd service, and `brew services restart ddbd` the Homebrew one.
 
-::: tip Coming from DADABADA 0.1.x
-DDBD was called DADABADA up to version 0.1.4. The names changed with 0.2.0: the settings file is `ddbd.toml`, the environment variable `DDBD_DATA`, the default data folder `./ddbd-data` (since 0.3.1, `~/ddbd-data`), `ddbd connect` keeps trusted certificates in `~/.config/ddbd`, and releases come from `https://cdn.broadwayinc.com/get/ddbd`. The old install command keeps installing 0.1.4. To move a server over:
-
-1. Install DDBD with the command above.
-2. Stop the server and rename the settings file in its data folder: `mv <folder>/dadabada.toml <folder>/ddbd.toml`. Until then, `ddbd start` refuses the folder and says so. Users, passwords, records, agent keys and sessions carry over as they are.
-3. In service units and scripts, change `DADABADA_DATA` to `DDBD_DATA` and `/usr/local/bin/dadabada` to `/usr/local/bin/ddbd`, then start the server.
-4. Remove what the old installer left: `sudo rm -f /usr/local/bin/dadabada` and `sudo rm -r /usr/local/share/doc/dadabada`. On machines that use `ddbd connect`, `mv ~/.config/dadabada ~/.config/ddbd` keeps the certificates it trusted.
-:::
-
+<!-- ::: tip Coming from DADABADA 0.1.x -->
+<!-- DDBD was called DADABADA up to version 0.1.4. The names changed with 0.2.0: the settings file is `ddbd.toml`, the environment variable `DDBD_DATA`, the default data folder `./ddbd-data` (since 0.3.1, `~/ddbd-data`), `ddbd connect` keeps trusted certificates in `~/.config/ddbd`, and releases come from `https://cdn.broadwayinc.com/get/ddbd`. The old install command keeps installing 0.1.4. To move a server over: -->
+<!---->
+<!-- 1. Install DDBD with the command above. -->
+<!-- 2. Stop the server and rename the settings file in its data folder: `mv <folder>/dadabada.toml <folder>/ddbd.toml`. Until then, `ddbd start` refuses the folder and says so. Users, passwords, records, agent keys and sessions carry over as they are. -->
+<!-- 3. In service units and scripts, change `DADABADA_DATA` to `DDBD_DATA` and `/usr/local/bin/dadabada` to `/usr/local/bin/ddbd`, then start the server. -->
+<!-- 4. Remove what the old installer left: `sudo rm -f /usr/local/bin/dadabada` and `sudo rm -r /usr/local/share/doc/dadabada`. On machines that use `ddbd connect`, `mv ~/.config/dadabada ~/.config/ddbd` keeps the certificates it trusted. -->
+<!-- ::: -->
+<!---->
 ### Installing without the install script
 
 On a machine that cannot run the script (no internet access, or a review step before anything is installed), download the files by hand. Each version has one archive per system and processor, plus its checksum:
